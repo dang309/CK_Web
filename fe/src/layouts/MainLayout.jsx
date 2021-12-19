@@ -14,15 +14,17 @@ import {
   Popover,
   Divider,
   Button,
+  Fab,
 } from "@mui/material";
 import Appbar from "@mui/material/AppBar";
 
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 //----------------------------------------
-import { Footer } from "@components";
+import { Footer, ScrollToTop } from "@components";
 
 //----------------------------------------
 
@@ -36,7 +38,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { LOGOUT } from "src/reducers/user";
 
-function MainLayout() {
+function MainLayout(props) {
   const dispatch = useDispatch();
   const itemsInCart = useSelector((state) => state.cart.items);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -150,10 +152,18 @@ function MainLayout() {
         </Container>
       </Appbar>
 
+      <div id="back-to-top-anchor" />
+
       <Box component="main" sx={{ my: 4, pt: 6 }}>
         <Outlet />
       </Box>
       <Footer />
+
+      <ScrollToTop {...props}>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollToTop>
     </Box>
   );
 }
