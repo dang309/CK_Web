@@ -12,6 +12,9 @@
 `yarn && yarn start` hoặc `npm install && npm start`
 
 **Bước 3:**
+import file `ck_web.bacpac` vào sql server
+
+**Bước 4:**
 `cd <YOUR_FOLDER>/server`
 `dotnet watch run`
 
