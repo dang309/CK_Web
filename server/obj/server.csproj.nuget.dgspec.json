@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GithubRepo\\framework_IS220.M11_12\\server\\server.csproj": {}
+    "D:\\GithubRepo\\Ck-Web\\server\\server.csproj": {}
   },
   "projects": {
-    "D:\\GithubRepo\\framework_IS220.M11_12\\server\\server.csproj": {
+    "D:\\GithubRepo\\Ck-Web\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GithubRepo\\framework_IS220.M11_12\\server\\server.csproj",
+        "projectUniqueName": "D:\\GithubRepo\\Ck-Web\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "D:\\GithubRepo\\framework_IS220.M11_12\\server\\server.csproj",
+        "projectPath": "D:\\GithubRepo\\Ck-Web\\server\\server.csproj",
         "packagesPath": "C:\\Users\\hadan\\.nuget\\packages\\",
-        "outputPath": "D:\\GithubRepo\\framework_IS220.M11_12\\server\\obj\\",
+        "outputPath": "D:\\GithubRepo\\Ck-Web\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hadan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -72,7 +72,7 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
