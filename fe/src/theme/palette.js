@@ -29,19 +29,19 @@ const GREY = {
 };
 
 const PRIMARY = {
-  // lighter: "#C8FACD",
-  light: "#4db6ac",
-  main: "#009688",
-  dark: "#00796b",
-  // darker: "#005249",
+  lighter: "#C8FACD",
+  light: "#5BE584",
+  main: "#00AB55",
+  dark: "#007B55",
+  darker: "#005249",
   contrastText: "#fff",
 };
 const SECONDARY = {
-  //   lighter: "#D6E4FF",
-  light: "#64b5f6",
-  main: "#2196f3",
-  dark: "#1976d2",
-  //   darker: "#091A7A",
+  lighter: "#D6E4FF",
+  light: "#84A9FF",
+  main: "#3366FF",
+  dark: "#1939B7",
+  darker: "#091A7A",
   contrastText: "#fff",
 };
 const INFO = {
@@ -85,6 +85,14 @@ const GRADIENTS = {
   error: createGradient(ERROR.light, ERROR.main),
 };
 
+const CHART_COLORS = {
+  violet: ["#826AF9", "#9E86FF", "#D0AEFF", "#F7D2FF"],
+  blue: ["#2D99FF", "#83CFFF", "#A5F3FF", "#CCFAFF"],
+  green: ["#2CD9C5", "#60F1C8", "#A4F7CC", "#C0F2DC"],
+  yellow: ["#FFE700", "#FFEF5A", "#FFF7AE", "#FFF3D6"],
+  red: ["#FF6C40", "#FF8F6D", "#FFBD98", "#FFF2D4"],
+};
+
 const palette = {
   common: { black: "#000", white: "#fff" },
   primary: { ...PRIMARY },
@@ -95,13 +103,9 @@ const palette = {
   error: { ...ERROR },
   grey: GREY,
   gradients: GRADIENTS,
+  chart: CHART_COLORS,
   divider: GREY[500_24],
-  text: {
-    primary: "#3A3A3A",
-    secondary: "#646464",
-    button: "#101010",
-    disabled: GREY[500],
-  },
+  text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
   background: { paper: "#fff", default: "#fff", neutral: GREY[200] },
   action: {
     active: GREY[600],

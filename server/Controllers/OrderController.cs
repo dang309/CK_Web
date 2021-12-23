@@ -23,28 +23,11 @@ namespace server.Controllers
         }
 
         [HttpGet("/v1/orders")]
-        public IQueryable getOrders(int limit = 0, int skip = 0)
+        public IActionResult getOrders(int transaction_id)
         {
-            if (limit == 0 && skip == 0)
-            {
-                return (from ord in _context.Orders
-                        select ord);
-            }
-            else if (limit == 0)
-            {
-                return (from ord in _context.Orders
-                        select ord).Skip(skip);
-            }
-            else if (skip == 0)
-            {
-                return (from ord in _context.Orders
-                        select ord).Take(limit);
-            }
-            else
-            {
-                return (from ord in _context.Orders
-                        select ord).Skip(skip).Take(limit);
-            }
+            return Ok(new Res(200, "", true, (from ord in _context.Orders
+                                              where ord.TransactionId == transaction_id
+                                              select ord)));
         }
 
         [HttpGet("/v1/orders/{order_id}")]

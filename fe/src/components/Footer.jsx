@@ -9,7 +9,6 @@ import {
   Box,
   Grid,
   Link,
-  Divider,
 } from "@mui/material";
 
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -37,8 +36,8 @@ function Footer(props) {
         </Stack>
       </Container>
       <Container sx={{ py: 4 }}>
-        <Grid container>
-          <Grid item md={3} lg={3}>
+        <Grid container gap={1}>
+          <Grid item sm={3.5} md={3.5} lg={3}>
             <Stack direction="column" spacing={1}>
               <Link
                 href="/"
@@ -49,7 +48,7 @@ function Footer(props) {
                   fontSize: "36px",
                 }}
               >
-                Nhóm 12
+                Nhóm 20
               </Link>
               <Stack direction="row" spacing={1}>
                 <LocalPhoneIcon />
@@ -61,7 +60,7 @@ function Footer(props) {
             </Stack>
           </Grid>
 
-          <Grid item md={2.25} lg={2.25}>
+          <Grid item sm={3.5} md={3.5} lg={2}>
             <Stack direction="column" spacing={2}>
               <Typography variant="h5">Thông tin</Typography>
               <Stack direction="column" spacing={1}>
@@ -74,7 +73,7 @@ function Footer(props) {
             </Stack>
           </Grid>
 
-          <Grid item md={2.25} lg={2.25}>
+          <Grid item sm={3.5} md={3.5} lg={2}>
             <Stack direction="column" spacing={2}>
               <Typography variant="h5">Tài khoản</Typography>
               <Stack direction="column" spacing={1}>
@@ -86,7 +85,7 @@ function Footer(props) {
             </Stack>
           </Grid>
 
-          <Grid item md={2.25} lg={2.25}>
+          <Grid item sm={3.5} md={3.5} lg={2}>
             <Stack direction="column" spacing={2}>
               <Typography variant="h5">Thực đơn</Typography>
               <Stack direction="column" spacing={1}>
@@ -100,7 +99,7 @@ function Footer(props) {
             </Stack>
           </Grid>
 
-          <Grid item md={2.25} lg={2.25}>
+          <Grid item sm={3.5} md={3.5} lg={2}>
             <Stack direction="column" spacing={2}>
               <Typography variant="h5">Theo dõi chúng tôi</Typography>
               <Stack direction="row" spacing={2}>
@@ -131,7 +130,7 @@ function Footer(props) {
           justifyContent="space-between"
         >
           <Typography>Copyright © 2021. All Rights Reserved.</Typography>
-          <Typography>Designer by M12.</Typography>
+          <Typography>Designer by M20.</Typography>
         </Stack>
       </Container>
     </Stack>

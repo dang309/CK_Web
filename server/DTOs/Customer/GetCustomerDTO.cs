@@ -15,6 +15,8 @@ namespace server.DTOs
         public string hashedPassword { get; init; }
         public bool? isAdmin { get; init; }
         public string? avatar { get; init; }
+        public string bio { get; set; }
+        public DateTime birthday { get; set; }
         public DateTime? created_at { get; init; }
         public DateTime? updated_at { get; init; }
     }

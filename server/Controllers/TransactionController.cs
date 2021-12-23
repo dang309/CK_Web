@@ -22,58 +22,41 @@ namespace server.Controllers
         }
 
         [HttpGet("/v1/transactions")]
-        public IQueryable getTransactions(string category = "", int limit = 0, int skip = 0)
+        public IActionResult getTransactions()
         {
-            if (limit == 0 && skip == 0)
-            {
-                return (from trans in _context.Transactions
-                        select trans);
-            }
-            else if (limit == 0)
-            {
-                return (from trans in _context.Transactions
-                        select trans).Skip(skip);
-            }
-            else if (skip == 0)
-            {
-                return (from trans in _context.Transactions
-                        select trans).Take(limit);
-            }
-            else
-            {
-                return (from trans in _context.Transactions
-                        select trans).Skip(skip).Take(limit);
-            }
+            return Ok(new Res(200, "", true, (from trans in _context.Transactions
+                                              select trans)));
         }
 
         [HttpGet("/v1/transactions/{transaction_id}")]
-        public IQueryable getTransactionById(int transaction_id)
+        public IActionResult getTransactionById(int transaction_id)
         {
-            var query = (from trans in _context.Transactions
-                         where trans.Id == transaction_id
-                         select trans).Take(1);
-            return query;
+            return Ok(new Res(200, "", true, (from trans in _context.Transactions
+                                              where trans.Id == transaction_id
+                                              select trans).Take(1)));
         }
 
         [HttpPost("/v1/transactions")]
-        public void createTransaction(PostTransactionDTO transaction)
+        public IActionResult createTransaction(PostTransactionDTO transaction)
         {
             var newTransaction = new Transaction();
             newTransaction.Id = _context.Transactions.Count() == 0 ? 1 : _context.Transactions.Max(item => item.Id) + 1;
-            newTransaction.Date = transaction.date;
+            newTransaction.Date = DateTime.Now;
             newTransaction.TotalAmount = transaction.totalAmount;
             newTransaction.IsPaid = transaction.isPaid;
             newTransaction.PaymentMethod = transaction.paymentMethod;
-            newTransaction.PaymentInfo = transaction.paymentInfo;
+            newTransaction.ShippingAddress = transaction.shippingAddress;
             newTransaction.CreatedAt = DateTime.Now;
             newTransaction.UpdatedAt = DateTime.Now;
 
             _context.Transactions.Add(newTransaction);
             _context.SaveChanges();
+
+            return Ok(new Res(201, "", true, newTransaction));
         }
 
         [HttpPut("/v1/transactions/{transaction_id}")]
-        public void updateTransaction(int transaction_id, [FromBody] PutTransactionDTO transaction)
+        public IActionResult updateTransaction(int transaction_id, [FromBody] PutTransactionDTO transaction)
         {
             Transaction cTransaction = (from trans in _context.Transactions
                                         where trans.Id == transaction_id
@@ -82,10 +65,11 @@ namespace server.Controllers
             cTransaction.TotalAmount = transaction.totalAmount != null ? transaction.totalAmount : cTransaction.TotalAmount;
             cTransaction.IsPaid = transaction.isPaid != null ? transaction.isPaid : cTransaction.IsPaid;
             cTransaction.PaymentMethod = transaction.paymentMethod != null ? transaction.paymentMethod : cTransaction.PaymentMethod;
-            cTransaction.PaymentInfo = transaction.paymentInfo != null ? transaction.paymentInfo : cTransaction.PaymentInfo;
             cTransaction.UpdatedAt = DateTime.Now;
 
             _context.SaveChanges();
+
+            return Ok(new Res(200, "", true, cTransaction));
         }
 
         [HttpDelete("/v1/transactions/{transaction_id}")]

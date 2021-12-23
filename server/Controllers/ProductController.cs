@@ -48,12 +48,11 @@ namespace server.Controllers
         }
 
         [HttpGet("/v1/products/{product_id:int}")]
-        public IQueryable getProductById(int product_id)
+        public IActionResult getProductById(int product_id)
         {
-            var query = (from pro in _context.Products
-                         where pro.Id == product_id
-                         select pro).Take(1);
-            return query;
+            return Ok(new Res(200, "", true, (from pro in _context.Products
+                                              where pro.Id == product_id
+                                              select pro).Take(1)));
         }
 
         [HttpPost("/v1/products")]

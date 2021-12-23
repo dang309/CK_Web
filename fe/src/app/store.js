@@ -2,7 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "src/reducers/user";
 import cartReducer from "src/reducers/cart";
 import notiReducer from "src/reducers/noti";
-import orderReducer from "src/reducers/order";
+import transactionReducer from "src/reducers/transaction";
+import groupReducer from "src/reducers/group";
+import loadingReducer from "src/reducers/loading";
 
 import storage from "redux-persist/lib/storage";
 
@@ -22,14 +24,17 @@ const reducers = combineReducers({
   cart: cartReducer,
   user: userReducer,
   noti: notiReducer,
-  order: orderReducer,
+  transaction: transactionReducer,
+  group: groupReducer,
+  loading: loadingReducer,
 });
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["user", "cart", "order"],
+  whitelist: ["user", "cart", "transaction"],
+  blacklist: ["group"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

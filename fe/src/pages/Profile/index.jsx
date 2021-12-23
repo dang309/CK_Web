@@ -14,15 +14,17 @@ import {
 
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import PersonalProfile from "./components/PersonalProfile";
-import OrderHistory from "./components/OrderHistory";
+import TransactionHistory from "./components/TransactionHistory";
 
 import Cookies from "js-cookie";
 
 import { useDispatch } from "react-redux";
 
 import { LOGOUT } from "src/reducers/user";
+import { REMOVE_ALL_ITEM_IN_CART } from "src/reducers/cart";
 
 function Profile(props) {
   const dispatch = useDispatch();
@@ -34,17 +36,19 @@ function Profile(props) {
 
   const handleLogout = () => {
     Cookies.remove("__N12-token");
+    window.location.href = "/";
+    dispatch(REMOVE_ALL_ITEM_IN_CART());
     dispatch(LOGOUT());
   };
 
   return (
-    <Container>
-      <Grid container justifyContent="space-between">
+    <Container sx={{ minHeight: "512px" }}>
+      <Grid container justifyContent="space-between" gap={2}>
         <Grid
           item
-          sm={3.5}
-          md={3.5}
-          lg={3.5}
+          sm={12}
+          md={3}
+          lg={3}
           sx={{ borderRight: "1px solid rgba(0,0,0,0.1)" }}
         >
           <List>
@@ -74,13 +78,16 @@ function Profile(props) {
           <Divider />
           <List component="nav" aria-label="secondary mailbox folder">
             <ListItemButton onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
               <ListItemText primary="Đăng xuất" />
             </ListItemButton>
           </List>
         </Grid>
-        <Grid item sm={8} md={8} lg={8}>
+        <Grid item sm={12} md={8.8} lg={8.8}>
           {selectedIndex === 0 && <PersonalProfile />}
-          {selectedIndex === 1 && <OrderHistory />}
+          {selectedIndex === 1 && <TransactionHistory />}
         </Grid>
       </Grid>
     </Container>

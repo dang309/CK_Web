@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 
 import {
   Stack,
-  Box,
   Avatar,
-  Typography,
   TextField,
   FormControl,
   RadioGroup,
@@ -26,17 +24,22 @@ import DatePicker from "@mui/lab/DatePicker";
 import Cropper from "react-cropper";
 
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import EditIcon from "@mui/icons-material/Edit";
+import ClearIcon from "@mui/icons-material/Clear";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { CustomerService } from "@services";
+
+import { UPDATE_USER } from "src/reducers/user";
+import { SHOW_NOTI } from "src/reducers/noti";
+
+import moment from "moment";
 
 function PersonalProfile(props) {
+  const dispatch = useDispatch();
   const cUser = useSelector((state) => state.user.user);
 
-  const [gender, setGender] = useState("female");
-  const [date, setDate] = useState(null);
   const [currentAvatar, setCurrentAvatar] = useState("");
-  const [cropData, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -58,18 +61,48 @@ function PersonalProfile(props) {
 
   const getCropData = () => {
     if (typeof cropper !== "undefined") {
-      setCropData(cropper.getCroppedCanvas().toDataURL());
+      dispatch(UPDATE_USER({ avatar: cropper.getCroppedCanvas().toDataURL() }));
     }
     handleCloseDialog();
-  };
-
-  const handleChangeGender = (event) => {
-    setGender(event.target.value);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const handleChangeUserInfo = (info) => {
+    dispatch(UPDATE_USER(info));
+  };
+
+  const handleSaveInfo = () => {
+    let data = {
+      name: cUser.name,
+      email: cUser.email,
+      isAdmin: cUser.is_admin,
+      gender: cUser.gender,
+      avatar: cUser.avatar,
+      bio: cUser.bio,
+      birthday:
+        (cUser.birthday &&
+          moment(cUser.birthday).format("YYYY-MM-DD HH:mm:ss")) ||
+        new Date(),
+    };
+    CustomerService.UPDATE_CUSTOMER(cUser.id, data)
+      .then(() => {
+        dispatch(
+          SHOW_NOTI({
+            status: "success",
+            message: "Cập nhật thành công!",
+          })
+        );
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleRemoveAvatar = () => {
+    dispatch(UPDATE_USER({ avatar: "" }));
+  };
+
   return (
     <Stack
       direction="column"
@@ -84,14 +117,14 @@ function PersonalProfile(props) {
         spacing={1}
       >
         <Stack direction="row" justifyContent="center" alignItems="center">
-          {cUser.thumbUrl ? (
+          {cUser.avatar ? (
             <Avatar
               sx={{
                 width: 128,
                 height: 128,
                 fontSize: "56px",
               }}
-              src={cropData || cUser.thumbUrl}
+              src={cUser.avatar}
               alt=""
             />
           ) : (
@@ -102,7 +135,7 @@ function PersonalProfile(props) {
                 fontSize: "56px",
               }}
             >
-              {cUser.name[0]}
+              {cUser.name.split(" ")[cUser.name.split(" ").length - 1][0]}
             </Avatar>
           )}
 
@@ -117,9 +150,15 @@ function PersonalProfile(props) {
             onChange={handleChangeAvatar}
           />
 
-          <IconButton component="label" htmlFor="avatar">
-            <CameraAltIcon />
-          </IconButton>
+          <Stack direction="column">
+            <IconButton component="label" htmlFor="avatar">
+              <CameraAltIcon />
+            </IconButton>
+
+            <IconButton onClick={handleRemoveAvatar}>
+              <ClearIcon />
+            </IconButton>
+          </Stack>
         </Stack>
 
         <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -156,29 +195,31 @@ function PersonalProfile(props) {
       </Stack>
 
       <Stack direction="column" spacing={2} sx={{ width: "512px" }}>
-        <TextField fullWidth label="Tên" value={cUser.name} />
+        <TextField
+          fullWidth
+          label="Tên"
+          value={cUser.name}
+          onChange={(e) => handleChangeUserInfo({ name: e.target.value })}
+        />
 
-        <TextField fullWidth label="Email" value={cUser.email} />
+        <TextField
+          fullWidth
+          label="Email"
+          value={cUser.email}
+          onChange={(e) => handleChangeUserInfo({ email: e.target.value })}
+        />
 
         <Stack direction="row" alignItems="center" spacing={12}>
           <FormControl component="fieldset">
             <RadioGroup
               aria-label="gender"
               name="controlled-radio-buttons-group"
-              value={gender}
-              onChange={handleChangeGender}
+              value={cUser.gender ? "1" : "0"}
+              onChange={(e) => handleChangeUserInfo({ gender: e.target.value })}
             >
               <Stack direction="row" alignItems="center" spacing={2}>
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Nam"
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Nữ"
-                />
+                <FormControlLabel value="0" control={<Radio />} label="Nam" />
+                <FormControlLabel value="1" control={<Radio />} label="Nữ" />
               </Stack>
             </RadioGroup>
           </FormControl>
@@ -186,10 +227,10 @@ function PersonalProfile(props) {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Ngày sinh"
-              value={date}
-              onChange={(newDate) => {
-                setDate(newDate);
-              }}
+              value={cUser.birthday}
+              onChange={(newDate) =>
+                handleChangeUserInfo({ birthday: newDate })
+              }
               renderInput={(params) => <TextField {...params} fullWidth />}
             />
           </LocalizationProvider>
@@ -201,9 +242,13 @@ function PersonalProfile(props) {
           maxRows={4}
           rows={4}
           label="Mô tả bản thân"
+          value={cUser.bio}
+          onChange={(e) => handleChangeUserInfo({ bio: e.target.value })}
         />
 
-        <Button variant="contained">Lưu</Button>
+        <Button variant="contained" onClick={handleSaveInfo}>
+          Lưu
+        </Button>
       </Stack>
     </Stack>
   );

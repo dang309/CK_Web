@@ -3,12 +3,13 @@ import axios from "axios";
 import { CONSTANT } from "@utils";
 
 class OrderService {
-  GET_ALL_ORDERS() {
+  GET_ALL_ORDERS_BY_TRANSACTION_ID(params) {
     return new Promise((resolve, reject) => {
       axios({
         baseURL: CONSTANT.API_ROOT,
         method: "GET",
         url: "/v1/orders",
+        params,
         headers: {
           "Content-Type": "application/json",
         },

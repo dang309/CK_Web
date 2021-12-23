@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Y978OQzZ0ocXb6S4UVN/3DfR0Ye49Wa1N4h1upXgx/CJ0BOB8XjqV45zhgNA91oT+8kHT22+TLnntawVbIgOEw==",
+  "dgSpecHash": "fL4nfwxdTTmZM3ZWI451y+SKJsJJ0RhtAxQDc2UzXUFSMro4FMGxMk233J6tpoDFsfMlmVzfNI3SNS2JV0o8fw==",
   "success": true,
   "projectFilePath": "D:\\GithubRepo\\Ck-Web\\server\\server.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\hadan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",
+    "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.signalr\\2.4.2\\microsoft.aspnet.signalr.2.4.2.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.7\\microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.7\\microsoft.aspnet.webapi.core.5.2.7.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.webapi.webhost\\5.2.7\\microsoft.aspnet.webapi.webhost.5.2.7.nupkg.sha512",

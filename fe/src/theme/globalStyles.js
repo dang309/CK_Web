@@ -59,9 +59,6 @@ const GlobalStyles = withStyles((theme) => ({
       color: "#d32f2f !important",
       fontSize: "16px !important",
     },
-    "::-webkit-scrollbar": {
-      display: "none",
-    },
   },
 }))(() => null);
 

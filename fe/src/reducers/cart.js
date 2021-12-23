@@ -8,15 +8,19 @@ export const CartSlice = createSlice({
   name: "cart",
   initialState: INITIAL_STATE,
   reducers: {
+    SET_ITEMS: (state, action) => {
+      state.items = action.payload;
+    },
     ADD_ITEM_TO_CART: (state, action) => {
       state.items.push(action.payload);
     },
     UPDATE_QUANTITY: (state, action) => {
       const _items = state.items.slice();
       const cProductIndex = _items.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.productId === action.payload.productId
       );
       _items[cProductIndex].quantityInCart = action.payload.quantityInCart;
+      _items[cProductIndex].quantity = action.payload.quantity;
       state.items = _items;
     },
     REMOVE_ITEM_BY_ID: (state, action) => {
@@ -32,6 +36,7 @@ export const CartSlice = createSlice({
 });
 
 export const {
+  SET_ITEMS,
   ADD_ITEM_TO_CART,
   UPDATE_QUANTITY,
   REMOVE_ITEM_BY_ID,

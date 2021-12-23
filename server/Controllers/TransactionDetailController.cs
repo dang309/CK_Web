@@ -22,32 +22,15 @@ namespace server.Controllers
         }
 
         [HttpGet("/v1/transaction-details")]
-        public IQueryable getTransactionDetails(string category = "", int limit = 0, int skip = 0)
+        public IActionResult getTransactionDetails(int customer_id)
         {
-            if (limit == 0 && skip == 0)
-            {
-                return (from td in _context.TransactionDetails
-                        select td);
-            }
-            else if (limit == 0)
-            {
-                return (from td in _context.TransactionDetails
-                        select td).Skip(skip);
-            }
-            else if (skip == 0)
-            {
-                return (from td in _context.TransactionDetails
-                        select td).Take(limit);
-            }
-            else
-            {
-                return (from td in _context.TransactionDetails
-                        select td).Skip(skip).Take(limit);
-            }
+            return Ok(new Res(200, "", true, (from trans in _context.TransactionDetails
+                                              where trans.CustomerId == customer_id
+                                              select trans)));
         }
 
         [HttpGet("/v1/transaction-details/{transaction_detail_id}")]
-        public IQueryable getTransactionById(int transaction_detail_id)
+        public IQueryable getTransactionById(Guid transaction_detail_id)
         {
             var query = (from td in _context.TransactionDetails
                          where td.Id == transaction_detail_id
@@ -59,7 +42,7 @@ namespace server.Controllers
         public void createTransactionDetail([FromBody] PostTransactionDetailDTO transactionDetail)
         {
             var newTransactionDetail = new TransactionDetail();
-            newTransactionDetail.Id = _context.TransactionDetails.Count() == 0 ? 1 : _context.TransactionDetails.Max(item => item.Id) + 1;
+            newTransactionDetail.Id = Guid.NewGuid();
             newTransactionDetail.TransactionId = transactionDetail.transactionId;
             newTransactionDetail.CustomerId = transactionDetail.customerId;
             newTransactionDetail.CreatedAt = DateTime.Now;
@@ -70,7 +53,7 @@ namespace server.Controllers
         }
 
         [HttpPut("/v1/transaction-details/{transaction_detail_id}")]
-        public void updateTransaction(int transaction_detail_id, [FromBody] PutTransactionDetailDTO transactionDetail)
+        public void updateTransaction(Guid transaction_detail_id, [FromBody] PutTransactionDetailDTO transactionDetail)
         {
             TransactionDetail cTransactionDetail = (from td in _context.TransactionDetails
                                                     where td.Id == transaction_detail_id
@@ -83,7 +66,7 @@ namespace server.Controllers
         }
 
         [HttpDelete("/v1/transaction-details/{transaction_detail_id}")]
-        public void deleteTransaction(int transaction_detail_id)
+        public void deleteTransaction(Guid transaction_detail_id)
         {
             TransactionDetail cTransactionDetail = (from td in _context.TransactionDetails
                                                     where td.Id == transaction_detail_id

@@ -7,16 +7,16 @@ import {
   Container,
   Tabs,
   Tab,
-  Pagination,
   Stack,
+  Skeleton,
 } from "@mui/material";
 
 import _get from "lodash/get";
 import _pick from "lodash/pick";
 
-import { ProductCard } from "@components";
+import { ProductCard, Loading } from "@components";
 import { COMMON, CONSTANT } from "@utils";
-import { ProductService } from "@services";
+import { ProductService, CartService } from "@services";
 
 import BorderAllIcon from "@mui/icons-material/BorderAll";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
@@ -28,19 +28,26 @@ import LunchDiningIcon from "@mui/icons-material/LunchDining";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { ADD_ITEM_TO_CART } from "src/reducers/cart";
 import { SHOW_NOTI } from "src/reducers/noti";
+
+import _uniqBy from "lodash/uniqBy";
+import { ACTIVE_LOADING, STOP_LOADING } from "src/reducers/loading";
 
 function ProductContainer(props) {
   const dispatch = useDispatch();
-  const itemsInCart = useSelector((state) => state.cart.items);
+  const itemsInCart = _uniqBy(
+    useSelector((state) => state.cart.items),
+    "productId"
+  );
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const currentUser = useSelector((state) => state.user.user);
 
   const [tab, setTab] = useState(0);
   const [products, setProducts] = useState(null);
   const [category, setCategory] = useState("all");
 
   const handleChangeCurrentTab = (event, newTab) => {
-    setCategory(CONSTANT.CATEGORIES[newTab]);
+    setCategory(CONSTANT.CATEGORIES[newTab].code);
     setTab(newTab);
   };
 
@@ -58,7 +65,7 @@ function ProductContainer(props) {
   };
 
   const handleAddToCart = (product) => {
-    if (itemsInCart.findIndex((item) => item.id === product.id) > -1) {
+    if (itemsInCart.findIndex((item) => item.productId === product.id) > -1) {
       dispatch(
         SHOW_NOTI({
           status: "error",
@@ -66,26 +73,39 @@ function ProductContainer(props) {
         })
       );
     } else {
-      dispatch(
-        SHOW_NOTI({
-          status: "success",
-          message: "Thêm vào giỏ hàng thành công!",
-        })
-      );
-      dispatch(
-        ADD_ITEM_TO_CART({
+      if (isLoggedIn) {
+        let data = {
           productId: product.id,
-          ..._pick(product, [
-            "name",
-            "thumbUrl",
-            "unitPrice",
-            "quantity",
-            "category",
-            "discount",
-          ]),
+          customerId: currentUser.id,
           quantityInCart: 1,
-        })
-      );
+        };
+        dispatch(ACTIVE_LOADING());
+        CartService.ADD_ITEM_IN_CART(data)
+          .then(() => {
+            dispatch(
+              SHOW_NOTI({
+                status: "success",
+                message: "Thêm vào giỏ hàng thành công!",
+              })
+            );
+          })
+          .catch((err) => {
+            dispatch(
+              SHOW_NOTI({
+                status: "error",
+                message: err?.response?.data?.message,
+              })
+            );
+          })
+          .finally(() => dispatch(STOP_LOADING()));
+      } else {
+        dispatch(
+          SHOW_NOTI({
+            status: "success",
+            message: "Thêm vào giỏ hàng thành công!",
+          })
+        );
+      }
     }
   };
 
@@ -144,7 +164,7 @@ function ProductContainer(props) {
           <Grid
             container
             alignItems="flex-start"
-            justifyContent="flex-start"
+            justifyContent="center"
             gap={2}
           >
             {products &&
@@ -152,12 +172,11 @@ function ProductContainer(props) {
                 return (
                   <Grid
                     item
-                    xs={2.25}
-                    sm={2.25}
-                    md={2.25}
+                    xs={5.5}
+                    sm={3.5}
+                    md={3.5}
                     lg={2.25}
                     key={item.id}
-                    sx={{ width: "100%" }}
                     className="product-card"
                   >
                     <ProductCard
@@ -169,6 +188,39 @@ function ProductContainer(props) {
                 );
               })}
           </Grid>
+          {!products && (
+            <Grid
+              container
+              alignItems="flex-start"
+              justifyContent="center"
+              gap={2}
+            >
+              {new Array(30).fill(0).map((item) => {
+                return (
+                  <Grid
+                    item
+                    xs={5.5}
+                    sm={3.5}
+                    md={3.5}
+                    lg={2.25}
+                    key={item.id}
+                    className="product-card"
+                  >
+                    <Skeleton
+                      variant="rectangular"
+                      animation="wave"
+                      sx={{
+                        width: "100%",
+                        px: 4,
+                        py: 8,
+                        borderRadius: 2,
+                      }}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          )}
         </Box>
       </Stack>
     </Container>

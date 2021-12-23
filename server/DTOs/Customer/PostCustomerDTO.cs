@@ -10,5 +10,11 @@ namespace server.DTOs
         public string hashedPassword { get; init; }
         public bool isAdmin { get; init; }
         public string avatar { get; init; }
+
+        public DateTime birthday { get; set; }
+        public string bio
+        {
+            get; set;
+        }
     }
 }

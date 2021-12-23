@@ -16,11 +16,13 @@ export const UserSlice = createSlice({
     SET_REMEMBER_ME: (state, action) => {
       state.isRemeberMe = action.payload;
     },
+    UPDATE_USER: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
     LOGIN: (state) => {
       state.isLoggedIn = true;
     },
     LOGOUT: (state) => {
-      console.log("Logged out");
       state.isLoggedIn = false;
       state.user = {};
       state.isRemeberMe = false;
@@ -28,7 +30,7 @@ export const UserSlice = createSlice({
   },
 });
 
-export const { SET_USER_INFO, SET_REMEMBER_ME, LOGIN, LOGOUT } =
+export const { SET_USER_INFO, SET_REMEMBER_ME, UPDATE_USER, LOGIN, LOGOUT } =
   UserSlice.actions;
 
 export default UserSlice.reducer;

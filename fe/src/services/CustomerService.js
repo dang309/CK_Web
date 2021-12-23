@@ -41,6 +41,86 @@ class CustomerService {
     });
   }
 
+  GET_ALL_CUSTOMERS_IN_GROUP(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: `/v1/customers/groups`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  CREATE_GROUP(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: `/v1/customers/groups/create`,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  JOIN_GROUP(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: `/v1/customers/groups/join`,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  LEAVE_GROUP(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: `/v1/customers/groups/leave`,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
   CREATE_CUSTOMER(data) {
     return new Promise((resolve, reject) => {
       axios({

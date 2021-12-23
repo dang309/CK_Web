@@ -6,6 +6,6 @@ namespace server.DTOs
 
         public int productId { get; set; }
 
-        public int quantity { get; set; }
+        public int quantityInCart { get; set; }
     }
 }

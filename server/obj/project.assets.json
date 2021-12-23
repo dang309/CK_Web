@@ -55,6 +55,9 @@
           "lib/net45/System.Web.Razor.dll": {}
         }
       },
+      "Microsoft.AspNet.SignalR/2.4.2": {
+        "type": "package"
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.7": {
         "type": "package",
         "dependencies": {
@@ -1733,6 +1736,18 @@
         "lib/net45/System.Web.Razor.xml",
         "microsoft.aspnet.razor.3.2.7.nupkg.sha512",
         "microsoft.aspnet.razor.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.SignalR/2.4.2": {
+      "sha512": "8NAm5wmNP+NkqnKqFKWcj7F2JMaQSsqDq5Nx3LnaMmJgHsHYiCx3hAXzXo+047AcJCtYyAvVRUyjWS4NIpEn2A==",
+      "type": "package",
+      "path": "microsoft.aspnet.signalr/2.4.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "microsoft.aspnet.signalr.2.4.2.nupkg.sha512",
+        "microsoft.aspnet.signalr.nuspec",
+        "packageIcon.png"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.7": {
@@ -5971,6 +5986,7 @@
       "AutoMapper >= 10.1.1",
       "BCrypt.Net-Next >= 4.0.2",
       "Microsoft.AspNet.Mvc >= 5.2.7",
+      "Microsoft.AspNet.SignalR >= 2.4.2",
       "Microsoft.AspNet.WebApi.WebHost >= 5.2.7",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.0.0",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 4.0.0",
@@ -6032,6 +6048,10 @@
           "Microsoft.AspNet.Mvc": {
             "target": "Package",
             "version": "[5.2.7, )"
+          },
+          "Microsoft.AspNet.SignalR": {
+            "target": "Package",
+            "version": "[2.4.2, )"
           },
           "Microsoft.AspNet.WebApi.WebHost": {
             "target": "Package",

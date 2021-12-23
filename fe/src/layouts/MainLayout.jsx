@@ -38,9 +38,18 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { LOGOUT } from "src/reducers/user";
 
+import { REMOVE_ALL_ITEM_IN_CART } from "src/reducers/cart";
+
+import _uniqBy from "lodash/uniqBy";
+
+import { Link as RouterLink } from "react-router-dom";
+
 function MainLayout(props) {
   const dispatch = useDispatch();
-  const itemsInCart = useSelector((state) => state.cart.items);
+  const itemsInCart = _uniqBy(
+    useSelector((state) => state.cart.items),
+    "productId"
+  );
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const cUser = useSelector((state) => state.user.user);
 
@@ -56,6 +65,9 @@ function MainLayout(props) {
 
   const handleLogout = () => {
     Cookies.remove("__N12-token");
+    window.location.href = "/";
+    localStorage.removeItem("persist:root");
+    dispatch(REMOVE_ALL_ITEM_IN_CART());
     dispatch(LOGOUT());
   };
 
@@ -78,7 +90,8 @@ function MainLayout(props) {
             >
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Link
-                  href="/"
+                  component={RouterLink}
+                  to="/"
                   underline="none"
                   sx={{
                     color: "#000",
@@ -86,20 +99,16 @@ function MainLayout(props) {
                     fontSize: "36px",
                   }}
                 >
-                  Nhóm 12
+                  Nhóm 20
                 </Link>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
                 {isLoggedIn ? (
                   <IconButton onClick={handleClick}>
-                    {cUser.thumbUrl ? (
-                      <Avatar src={cUser.thumbUrl} />
-                    ) : (
-                      <Avatar>{cUser.name[0]}</Avatar>
-                    )}
+                    <Avatar src={cUser.avatar} alt={cUser.name} />
                   </IconButton>
                 ) : (
-                  <Button variant="outlined" href="/auth">
+                  <Button variant="outlined" to="/auth" component={RouterLink}>
                     Đăng nhập / Đăng ký
                   </Button>
                 )}
@@ -124,7 +133,8 @@ function MainLayout(props) {
                       size="small"
                       variant="outlined"
                       startIcon={<AccountCircleOutlinedIcon />}
-                      href="/profile"
+                      to="/profile"
+                      component={RouterLink}
                     >
                       Hồ sơ cá nhân
                     </Button>
@@ -138,7 +148,7 @@ function MainLayout(props) {
                     </Button>
                   </Stack>
                 </Popover>
-                <IconButton href="/cart">
+                <IconButton to="/cart" component={RouterLink}>
                   <Badge
                     badgeContent={itemsInCart.length || null}
                     color="secondary"

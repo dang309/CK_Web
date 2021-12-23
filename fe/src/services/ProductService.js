@@ -19,6 +19,21 @@ class ProductService {
     });
   }
 
+  GET_PRODUCT_BY_ID(productId) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        method: "GET",
+        url: `/v1/products/${productId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => resolve(res.data))
+        .catch((err) => reject(err));
+    });
+  }
+
   CREATE_PRODUCT(data) {
     return new Promise((resolve, reject) => {
       axios({

@@ -8,6 +8,7 @@ import {
   ProfilePage,
   CartPage,
   CheckoutPage,
+  ManagerPage,
 } from "./pages";
 
 //layouts
@@ -43,6 +44,10 @@ export default function Router() {
         {
           path: "/checkout",
           element: isLoggedIn ? <CheckoutPage /> : <Navigate to="/auth" />,
+        },
+        {
+          path: "/manager",
+          element: <ManagerPage />,
         },
       ],
     },

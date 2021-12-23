@@ -15,6 +15,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 import "cropperjs/dist/cropper.css";
 
+import "simplebar/dist/simplebar.min.css";
+
 let persistor = persistStore(store);
 
 ReactDOM.render(

@@ -77,6 +77,13 @@ namespace server
 
             app.UseAuthorization();
 
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+            };
+
+            app.UseWebSockets(webSocketOptions);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

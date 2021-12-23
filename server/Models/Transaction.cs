@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace server.Models
 {
     public partial class Transaction
     {
         public Transaction()
         {
-            Order = new HashSet<Order>();
-            TransactionDetail = new HashSet<TransactionDetail>();
+            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -16,11 +17,10 @@ namespace server.Models
         public double? TotalAmount { get; set; }
         public bool? IsPaid { get; set; }
         public string PaymentMethod { get; set; }
-        public string PaymentInfo { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string ShippingAddress { get; set; }
 
-        public virtual ICollection<Order> Order { get; set; }
-        public virtual ICollection<TransactionDetail> TransactionDetail { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

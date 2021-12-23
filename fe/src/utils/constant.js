@@ -1,5 +1,3 @@
-import faker from "faker";
-
 export default {
   API_ROOT: "https://localhost:5001",
   BANNERS: [
@@ -24,13 +22,13 @@ export default {
     speed: 500,
   },
   CATEGORIES: [
-    "all",
-    "food",
-    "beverage",
-    "vegan",
-    "bakery",
-    "noodles",
-    "fast-food",
+    { code: "all", displayName: "Tất cả", color: "" },
+    { code: "food", displayName: "Đồ ăn", color: "" },
+    { code: "beverage", displayName: "Đồ uống", color: "" },
+    { code: "vegan", displayName: "Đồ chay", color: "" },
+    { code: "bakery", displayName: "Bánh kem", color: "" },
+    { code: "noodles", displayName: "Mỳ", color: "" },
+    { code: "fast-food", displayName: "Đồ ăn nhanh", color: "" },
   ],
   BRANDS: [
     "https://demo2wpopal.b-cdn.net/ecolive/wp-content/uploads/2021/10/brand3.svg",
@@ -43,5 +41,43 @@ export default {
     { text: "Đang lấy hàng", color: "#233E8B" },
     { text: "Đang vận chuyển", color: "#FF7800" },
     { text: "Đã giao", color: "#66DE93" },
+  ],
+
+  TABLE_HEAD_CUSTOMER: [
+    { id: "id", label: "STT", alignRight: false },
+    { id: "avatar", label: "Ảnh đại diện", alignRight: false },
+    { id: "name", label: "Tên khách hàng", alignRight: false },
+    { id: "email", label: "Email", alignRight: false },
+    { id: "bio", label: "Tự bạch", alignRight: false },
+    { id: "gender", label: "Giới tính", alignRight: false },
+    { id: "birthday", label: "Ngày sinh", alignRight: false },
+    { id: "right", label: "Phân quyền", alignRight: false },
+    { id: "", label: "", alignRight: false },
+  ],
+
+  TABLE_HEAD_PRODUCT: [
+    { id: "id", label: "STT", alignRight: false },
+    { id: "thumbUrl", label: "", alignRight: false },
+    { id: "name", label: "Tên sản phẩm", alignRight: false },
+    { id: "unitPrice", label: "Đơn giá(đ)", alignRight: false },
+    { id: "quantity", label: "Số lượng", alignRight: false },
+    { id: "discount", label: "Khuyến mãi(%)", alignRight: false },
+    { id: "category", label: "Loại", alignRight: false },
+    { id: "", label: "", alignRight: false },
+  ],
+
+  TABLE_HEAD_ORDER: [
+    { id: "id", label: "STT", alignRight: false },
+    { id: "order_id", label: "Mã đơn hàng", alignRight: false },
+    { id: "order_date", label: "Ngày đặt hàng", alignRight: false },
+    { id: "total_amount", label: "Tổng tiền", alignRight: false },
+    {
+      id: "payment_method",
+      label: "Phương thức thanh toán",
+      alignRight: false,
+    },
+    { id: "shippingAddress", label: "Địa chỉ", alignRight: false },
+    { id: "status", label: "Tình trạng đơn hàng", alignRight: false },
+    { id: "", label: "", alignRight: false },
   ],
 };

@@ -61,7 +61,6 @@ export default function RegisterForm() {
         password: values.password,
       };
       const resRegister = await AuthService.REGISTER(data);
-      console.log("haidang", resRegister);
       if (resRegister.result) {
         const user = _pick(data, ["email", "password"]);
         const resLogin = await AuthService.LOGIN(user);
@@ -85,7 +84,7 @@ export default function RegisterForm() {
             message: resLogin.message,
           })
         );
-        navigate(-1);
+        navigate("/");
         return null;
       }
     },

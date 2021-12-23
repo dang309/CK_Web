@@ -53,6 +53,9 @@ namespace server.Controllers
                 is_admin = cCustomer.IsAdmin,
                 avatar = cCustomer.Avatar,
                 gender = cCustomer.Gender,
+                bio = cCustomer.Bio,
+                birthday = cCustomer.Birthday,
+                group_id = cCustomer.GroupId,
                 token = new
                 {
                     jwt = new JwtSecurityTokenHandler().WriteToken(token),
@@ -68,7 +71,7 @@ namespace server.Controllers
             var cCustomer = _context.Customers.SingleOrDefault(item => item.Email == req.Email);
             if (cCustomer != null) return BadRequest(new Res(400, "Email đã tồn tại!", false, null));
             Customer newCustomer = new Customer();
-            newCustomer.Id = _context.Customers.Max(item => item.Id) + 1;
+            newCustomer.Id = _context.Customers.Count() == 0 ? 1 : _context.Customers.Max(item => item.Id) + 1;
             newCustomer.Name = req.Name;
             newCustomer.Email = req.Email;
             newCustomer.HashedPassword = BC.HashPassword(req.Password);
