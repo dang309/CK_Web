@@ -44,7 +44,7 @@ export default {
   ],
 
   TABLE_HEAD_CUSTOMER: [
-    { id: "id", label: "STT", alignRight: false },
+    { id: "id", label: "Mã khách hàng", alignRight: false },
     { id: "avatar", label: "Ảnh đại diện", alignRight: false },
     { id: "name", label: "Tên khách hàng", alignRight: false },
     { id: "email", label: "Email", alignRight: false },
@@ -56,7 +56,7 @@ export default {
   ],
 
   TABLE_HEAD_PRODUCT: [
-    { id: "id", label: "STT", alignRight: false },
+    { id: "id", label: "Mã sản phẩm", alignRight: false },
     { id: "thumbUrl", label: "", alignRight: false },
     { id: "name", label: "Tên sản phẩm", alignRight: false },
     { id: "unitPrice", label: "Đơn giá(đ)", alignRight: false },
@@ -66,18 +66,12 @@ export default {
     { id: "", label: "", alignRight: false },
   ],
 
-  TABLE_HEAD_ORDER: [
-    { id: "id", label: "STT", alignRight: false },
-    { id: "order_id", label: "Mã đơn hàng", alignRight: false },
-    { id: "order_date", label: "Ngày đặt hàng", alignRight: false },
-    { id: "total_amount", label: "Tổng tiền", alignRight: false },
-    {
-      id: "payment_method",
-      label: "Phương thức thanh toán",
-      alignRight: false,
-    },
-    { id: "shippingAddress", label: "Địa chỉ", alignRight: false },
-    { id: "status", label: "Tình trạng đơn hàng", alignRight: false },
+  TABLE_HEAD_TRANSACTION: [
+    { id: "id", label: "Mã đơn hàng", alignRight: false },
+    { id: "date", label: "Ngày đặt hàng", alignRight: false },
+    { id: "totalAmount", label: "Tổng tiền", alignRight: false },
+    { id: "shippingAddress", label: "Địa chỉ giao hàng", alignRight: false },
+    { id: "paymentMethod", label: "Phương thức thanh toán", alignRight: false },
     { id: "", label: "", alignRight: false },
   ],
 };

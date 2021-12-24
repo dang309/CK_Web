@@ -199,6 +199,9 @@ export default function TransactionHistory() {
                                 color:
                                   CONSTANT.ORDER_STATUS[parseInt(order.status)]
                                     .color,
+                                borderColor:
+                                  CONSTANT.ORDER_STATUS[parseInt(order.status)]
+                                    .color,
                               }}
                               icon={
                                 row.paymentMethod === "cash" ? (
@@ -209,7 +212,6 @@ export default function TransactionHistory() {
                               }
                               variant="outlined"
                               size="small"
-                              color="secondary"
                             />
                           </TableCell>
                         </TableRow>

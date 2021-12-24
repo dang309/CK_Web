@@ -38,6 +38,7 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isActiveLoadingBtn, setIsActiveLoadingBtn] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required("Tên không được trống"),
@@ -63,6 +64,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
       setError("");
+      setIsActiveLoadingBtn(true);
       const data = {
         name: values.name,
         email: values.email,
@@ -106,11 +108,15 @@ export default function RegisterForm() {
         })
         .catch((err) => {
           setError(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setIsActiveLoadingBtn(false);
         });
+      return null;
     },
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>
@@ -198,7 +204,7 @@ export default function RegisterForm() {
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
+            loading={isActiveLoadingBtn}
           >
             Đăng ký
           </LoadingButton>

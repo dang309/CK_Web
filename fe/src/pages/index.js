@@ -3,3 +3,6 @@ export { default as AuthPage } from "./Auth";
 export { default as ProfilePage } from "./Profile";
 export { default as CartPage } from "./Cart";
 export { default as CheckoutPage } from "./Checkout";
+export { default as ManagerPage } from "./Manager";
+export { default as ForgotPasswordPage } from "./ForgotPassword";
+export { default as ResetPasswordPage } from "./ResetPassword";

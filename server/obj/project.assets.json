@@ -24,6 +24,15 @@
           "lib/net5.0/BCrypt.Net-Next.dll": {}
         }
       },
+      "dotenv.net/3.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/dotenv.net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/dotenv.net.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -1692,6 +1701,20 @@
         "lib/netstandard2.0/BCrypt.Net-Next.xml",
         "lib/netstandard2.1/BCrypt.Net-Next.dll",
         "lib/netstandard2.1/BCrypt.Net-Next.xml"
+      ]
+    },
+    "dotenv.net/3.1.1": {
+      "sha512": "SjU7/mnA1+cYLf0Bnf+8XNYmzfWn6I//mhu84sgfnrM+bvt6/1GMZK0wfrDVY8wRoZACkcLbmT9h28dJ0MtlTA==",
+      "type": "package",
+      "path": "dotenv.net/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dotenv.net.3.1.1.nupkg.sha512",
+        "dotenv.net.nuspec",
+        "lib/netstandard1.6/dotenv.net.dll",
+        "lib/netstandard2.0/dotenv.net.dll",
+        "lib/netstandard2.1/dotenv.net.dll"
       ]
     },
     "Humanizer.Core/2.8.26": {
@@ -5995,7 +6018,8 @@
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.0",
       "Microsoft.IdentityModel.Tokens >= 6.14.1",
       "Swashbuckle.AspNetCore >= 5.6.3",
-      "System.IdentityModel.Tokens.Jwt >= 6.14.1"
+      "System.IdentityModel.Tokens.Jwt >= 6.14.1",
+      "dotenv.net >= 3.1.1"
     ]
   },
   "packageFolders": {
@@ -6092,6 +6116,10 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[6.14.1, )"
+          },
+          "dotenv.net": {
+            "target": "Package",
+            "version": "[3.1.1, )"
           }
         },
         "imports": [

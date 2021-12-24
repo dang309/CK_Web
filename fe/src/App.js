@@ -127,7 +127,7 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={noti.show}
-        autoHideDuration={500}
+        autoHideDuration={noti.duration || 500}
         onClose={handleCloseSnackbar}
       >
         <Alert severity={noti.status || "info"}>{noti.message}</Alert>

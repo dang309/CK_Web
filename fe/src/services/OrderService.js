@@ -3,6 +3,21 @@ import axios from "axios";
 import { CONSTANT } from "@utils";
 
 class OrderService {
+  GET_ALL_ORDERS() {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        method: "GET",
+        url: "/v1/orders",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => resolve(res.data))
+        .catch((err) => reject(err));
+    });
+  }
+
   GET_ALL_ORDERS_BY_TRANSACTION_ID(params) {
     return new Promise((resolve, reject) => {
       axios({

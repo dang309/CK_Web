@@ -23,8 +23,14 @@ namespace server.Controllers
         }
 
         [HttpGet("/v1/orders")]
-        public IActionResult getOrders(int transaction_id)
+        public IActionResult getOrders(int? transaction_id)
         {
+
+            if (transaction_id == null)
+            {
+                return Ok(new Res(200, "", true, (from ord in _context.Orders
+                                                  select ord)));
+            }
             return Ok(new Res(200, "", true, (from ord in _context.Orders
                                               where ord.TransactionId == transaction_id
                                               select ord)));

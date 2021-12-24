@@ -8,10 +8,15 @@ import {
   ProfilePage,
   CartPage,
   CheckoutPage,
+  ManagerPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from "./pages";
 
 //layouts
 import { MainLayout } from "./layouts";
+
+import { useSelector } from "react-redux";
 
 import Cookies from "js-cookie";
 
@@ -19,8 +24,14 @@ import Cookies from "js-cookie";
 
 export default function Router() {
   const isAuth = Cookies.get("__N12-token") || "";
+  const cUser = useSelector((state) => state.user.user);
+  const openResetPwdPage = window.localStorage.getItem(
+    "open-reset-password-page"
+  );
 
   const isLoggedIn = Boolean(isAuth);
+
+  const isLoggedInAdmin = Boolean(isAuth && cUser.is_admin);
 
   return useRoutes([
     {
@@ -48,9 +59,24 @@ export default function Router() {
           path: "/auth",
           element: <AuthPage />,
         },
+        {
+          path: "/manager",
+          element: isLoggedInAdmin ? <ManagerPage /> : <Navigate to="/404" />,
+        },
       ],
     },
-
+    {
+      path: "/forgot-password",
+      element: <ForgotPasswordPage />,
+    },
+    {
+      path: "/reset-password",
+      element: openResetPwdPage ? (
+        <ResetPasswordPage />
+      ) : (
+        <Navigate to="/404" />
+      ),
+    },
     { path: "*", element: <Navigate to="/404" /> },
   ]);
 }

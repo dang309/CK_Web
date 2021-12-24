@@ -42,6 +42,46 @@ class AuthService {
         });
     });
   }
+
+  FORGOT_PASSWORD(data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: "/v1/auth/forgot-password",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  RESET_PASSWORD(data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        baseURL: CONSTANT.API_ROOT,
+        url: "/v1/auth/reset-password",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data,
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 }
 
 export default new AuthService();

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "fL4nfwxdTTmZM3ZWI451y+SKJsJJ0RhtAxQDc2UzXUFSMro4FMGxMk233J6tpoDFsfMlmVzfNI3SNS2JV0o8fw==",
+  "dgSpecHash": "Pq7auJRFxpgAXcTId0LMSGNJSYmw5k9u7Y3Xr318a/B4yFuZEYfMaByXiMDUVvHvv4P/uF8VMzUZo/ysPKJt2w==",
   "success": true,
   "projectFilePath": "D:\\GithubRepo\\Ck-Web\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hadan\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
+    "C:\\Users\\hadan\\.nuget\\packages\\dotenv.net\\3.1.1\\dotenv.net.3.1.1.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\hadan\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",

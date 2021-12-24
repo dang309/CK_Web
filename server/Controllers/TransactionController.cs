@@ -65,6 +65,7 @@ namespace server.Controllers
             cTransaction.TotalAmount = transaction.totalAmount != null ? transaction.totalAmount : cTransaction.TotalAmount;
             cTransaction.IsPaid = transaction.isPaid != null ? transaction.isPaid : cTransaction.IsPaid;
             cTransaction.PaymentMethod = transaction.paymentMethod != null ? transaction.paymentMethod : cTransaction.PaymentMethod;
+            cTransaction.ShippingAddress = transaction.shippingAddress != null ? transaction.shippingAddress : cTransaction.ShippingAddress;
             cTransaction.UpdatedAt = DateTime.Now;
 
             _context.SaveChanges();

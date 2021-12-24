@@ -47,6 +47,7 @@ export default function LoginForm() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isActiveLoadingBtn, setIsActiveLoadingBtn] = useState(false);
 
   const itemsInCart = _uniqBy(
     useSelector((state) => state.cart.items),
@@ -69,6 +70,7 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       setError("");
+      setIsActiveLoadingBtn(true);
       const user = {
         email: values.email,
         password: values.password,
@@ -146,14 +148,16 @@ export default function LoginForm() {
         })
         .catch((err) => {
           setError(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setIsActiveLoadingBtn(false);
         });
 
       return null;
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-    formik;
+  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -216,7 +220,11 @@ export default function LoginForm() {
             label="Remember me"
           />
 
-          <Link component={RouterLink} variant="subtitle2" to="#">
+          <Link
+            component={RouterLink}
+            variant="subtitle2"
+            to="/forgot-password"
+          >
             Quên mật khẩu?
           </Link>
         </Stack>
@@ -226,7 +234,7 @@ export default function LoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          loading={isSubmitting}
+          loading={isActiveLoadingBtn}
         >
           Đăng nhập
         </LoadingButton>

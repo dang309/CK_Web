@@ -262,3 +262,4 @@ D:\GithubRepo\Ck-Web\server\obj\Debug\net5.0\server.dll
 D:\GithubRepo\Ck-Web\server\obj\Debug\net5.0\ref\server.dll
 D:\GithubRepo\Ck-Web\server\obj\Debug\net5.0\server.pdb
 D:\GithubRepo\Ck-Web\server\obj\Debug\net5.0\server.genruntimeconfig.cache
+D:\GithubRepo\Ck-Web\server\bin\Debug\net5.0\dotenv.net.dll

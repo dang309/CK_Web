@@ -93,5 +93,35 @@ namespace server.Controllers
                 gender = newCustomer.Gender
             }));
         }
+
+        [HttpPost("/v1/auth/forgot-password")]
+        public IActionResult forgotPassword([FromBody] ForgotPasswordRequest req)
+        {
+            string body = $"Bấm vào đường link này để lấy lại mật khẩu --> <a href='http://localhost:3000/reset-password'>http://localhost:3000/reset-password</a>";
+            try
+            {
+                Mail.SendMail(req.Email, "NHÓM 20 - PHÁT TRIỂN ỨNG DỤNG WEB", body);
+                return Ok(new Res(200, $"Gửi thành công! Một email đã được gửi đến <span style='text-decoration: underline;'>{req.Email}</span>", true, null));
+
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err);
+                return BadRequest(new Res(400, "Gửi email thất bại!", false, null));
+            }
+        }
+
+        [HttpPost("/v1/auth/reset-password")]
+        public IActionResult resetPassword([FromBody] ResetPasswordRequest req)
+        {
+            var cCustomer = _context.Customers.SingleOrDefault(item => item.Email == req.Email);
+            cCustomer.HashedPassword = BC.HashPassword(req.Password);
+            cCustomer.UpdatedAt = DateTime.Now;
+
+            _context.SaveChanges();
+
+            return Ok(new Res(200, "Đặt lại mật khẩu thành công!", true, null));
+
+        }
     }
 }
