@@ -588,11 +588,13 @@ function Cart(props) {
 
       <Dialog open={openDialogGroup} onClose={handleCloseDialogGroup}>
         <DialogContent>
-          {joinOrAdd === "add" ? (
+          {joinOrAdd === "add" && (
             <DialogContentText>
               Đưa ID này cho bất kỳ ai để tham gia đặt hàng
             </DialogContentText>
-          ) : (
+          )}
+
+          {joinOrAdd === "join" && (
             <DialogContentText>Nhập ID để tham gia nhóm</DialogContentText>
           )}
           {joinOrAdd === "add" && (
