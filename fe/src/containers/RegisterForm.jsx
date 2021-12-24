@@ -5,7 +5,13 @@ import { useFormik, Form, FormikProvider } from "formik";
 
 import { useNavigate } from "react-router-dom";
 // material
-import { Stack, TextField, IconButton, InputAdornment } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+  Alert,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 //icons
@@ -31,6 +37,7 @@ export default function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required("Tên không được trống"),
@@ -55,38 +62,51 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
+      setError("");
       const data = {
         name: values.name,
         email: values.email,
         password: values.password,
       };
-      const resRegister = await AuthService.REGISTER(data);
-      if (resRegister.result) {
-        const user = _pick(data, ["email", "password"]);
-        const resLogin = await AuthService.LOGIN(user);
-        if (!resLogin.result) {
-          dispatch(
-            SHOW_NOTI({
-              status: "error",
-              message: resLogin.message,
-            })
-          );
-          return null;
-        }
-        Cookies.set("__N12-token", resLogin.data.token.jwt, {
-          expires: new Date(resLogin.data.token.expires),
+      AuthService.REGISTER(data)
+        .then((resRegister) => {
+          if (resRegister.result) {
+            const user = _pick(data, ["email", "password"]);
+            setError("");
+            AuthService.LOGIN(user)
+              .then((resLogin) => {
+                if (!resLogin.result) {
+                  dispatch(
+                    SHOW_NOTI({
+                      status: "error",
+                      message: resLogin.message,
+                    })
+                  );
+                  return null;
+                }
+                Cookies.set("__N12-token", resLogin.data.token.jwt, {
+                  expires: new Date(resLogin.data.token.expires),
+                });
+                dispatch(SET_USER_INFO(resLogin.data));
+                dispatch(LOGIN());
+                dispatch(
+                  SHOW_NOTI({
+                    status: "success",
+                    message: resLogin.message,
+                  })
+                );
+                navigate("/");
+              })
+              .catch((err) => {
+                setError(err?.response?.data?.message);
+              });
+
+            return null;
+          }
+        })
+        .catch((err) => {
+          setError(err?.response?.data?.message);
         });
-        dispatch(SET_USER_INFO(resLogin.data));
-        dispatch(LOGIN());
-        dispatch(
-          SHOW_NOTI({
-            status: "success",
-            message: resLogin.message,
-          })
-        );
-        navigate("/");
-        return null;
-      }
     },
   });
 
@@ -96,6 +116,11 @@ export default function RegisterForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3} sx={{ width: "512px" }}>
+          {error && (
+            <Alert severity="error" elevation={6} variant="filled">
+              {error}
+            </Alert>
+          )}
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth
@@ -103,6 +128,7 @@ export default function RegisterForm() {
               {...getFieldProps("name")}
               error={Boolean(touched.name && errors.name)}
               helperText={touched.name && errors.name}
+              onFocus={() => setError("")}
             />
 
             <TextField
@@ -113,6 +139,7 @@ export default function RegisterForm() {
               {...getFieldProps("email")}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
+              onFocus={() => setError("")}
             />
           </Stack>
 
@@ -122,6 +149,7 @@ export default function RegisterForm() {
             type={showPassword ? "text" : "password"}
             label="Mật khẩu"
             {...getFieldProps("password")}
+            onFocus={() => setError("")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -144,6 +172,7 @@ export default function RegisterForm() {
             type={showConfirmPassword ? "text" : "password"}
             label="Xác nhận mật khẩu"
             {...getFieldProps("confirmPassword")}
+            onFocus={() => setError("")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

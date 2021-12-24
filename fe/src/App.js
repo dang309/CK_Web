@@ -8,6 +8,7 @@ import { Snackbar, Alert, Dialog } from "@mui/material";
 import { SET_ITEMS } from "src/reducers/cart";
 import { HIDE_NOTI } from "src/reducers/noti";
 import { SET_MEMBERS } from "src/reducers/group";
+import { ACTIVE_LOADING, STOP_LOADING } from "src/reducers/loading";
 import { LOGIN } from "src/reducers/user";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -85,6 +86,27 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
+
+  const getMembersInGroup = async () => {
+    await COMMON.sleep(5000);
+    if (cUser.group_id) {
+      dispatch(ACTIVE_LOADING());
+      CustomerService.GET_ALL_CUSTOMERS_IN_GROUP({
+        group_id: cUser.group_id,
+      })
+        .then((res) => {
+          dispatch(SET_MEMBERS(res.data));
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          dispatch(STOP_LOADING());
+        });
+    }
+  };
+
+  useEffect(() => {
+    getMembersInGroup();
+  }, []);
 
   useEffect(() => {
     const isAuth = Cookies.get("__N12-token") || "";

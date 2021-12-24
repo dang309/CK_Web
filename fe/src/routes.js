@@ -44,12 +44,13 @@ export default function Router() {
           path: "/checkout",
           element: isLoggedIn ? <CheckoutPage /> : <Navigate to="/auth" />,
         },
+        {
+          path: "/auth",
+          element: <AuthPage />,
+        },
       ],
     },
-    {
-      path: "/auth",
-      element: <AuthPage />,
-    },
+
     { path: "*", element: <Navigate to="/404" /> },
   ]);
 }
