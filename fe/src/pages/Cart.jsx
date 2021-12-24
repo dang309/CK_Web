@@ -23,7 +23,11 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { UPDATE_QUANTITY, REMOVE_ITEM_BY_ID } from "src/reducers/cart";
+import {
+  UPDATE_QUANTITY,
+  REMOVE_ITEM_BY_ID,
+  SET_ITEMS,
+} from "src/reducers/cart";
 import { SHOW_NOTI } from "src/reducers/noti";
 import { SET_MEMBERS } from "src/reducers/group";
 import { ACTIVE_LOADING, STOP_LOADING } from "src/reducers/loading";
@@ -43,12 +47,13 @@ import { red } from "@mui/material/colors";
 
 import { COMMON } from "@utils";
 
-import { CartService, CustomerService } from "@services";
+import { CartService, CustomerService, ProductService } from "@services";
 
 import { Scrollbar } from "@components";
 
 import _uniqBy from "lodash/uniqBy";
 import _compact from "lodash/compact";
+import _pick from "lodash/pick";
 
 function Cart(props) {
   const dispatch = useDispatch();
@@ -65,6 +70,16 @@ function Cart(props) {
   const [outputOtp, setOutputOtp] = useState("");
   const [inputOtp, setInputOtp] = useState("");
   const [joinOrAdd, setJoinOrAdd] = useState("join");
+
+  const scrollIntoView = () => {
+    document
+      .getElementById("into-view-cart")
+      .scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  useEffect(() => {
+    scrollIntoView();
+  }, []);
 
   const handleIncreaseQuantityInCart = (itemInCart) => {
     if (itemInCart.quantityInCart > itemInCart.quantity) return;
@@ -127,13 +142,63 @@ function Cart(props) {
     return Math.round(temp.reduce((acc, item) => acc + item, 0));
   };
 
+  const getItemsInCart = async () => {
+    CartService.GET_ALL_ITEMS_IN_CART(cUser.id)
+      .then((resCart) => {
+        if (resCart.result) {
+          let promises = [];
+          resCart.data.forEach(async (item) => {
+            promises.push(ProductService.GET_PRODUCT_BY_ID(item.productId));
+          });
+          Promise.all(promises)
+            .then((resProducts) => {
+              const products = resProducts.map((item) => {
+                if (item.result) return item.data[0];
+              });
+              let data = [];
+              for (let i = 0; i < resCart.data.length; i++) {
+                let temp = {
+                  id:
+                    itemsInCart.length === 0
+                      ? 1
+                      : itemsInCart[itemsInCart.length - 1].id + 1,
+                  productId: products[i].id,
+                  ..._pick(products[i], [
+                    "name",
+                    "thumbUrl",
+                    "unitPrice",
+                    "quantity",
+                    "category",
+                    "discount",
+                  ]),
+                  quantityInCart: resCart.data[i].quantityInCart,
+                };
+
+                data.push(temp);
+              }
+
+              dispatch(SET_ITEMS(data));
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleRemoveItem = (itemInCart) => {
-    const data = {
-      customerId: cUser.id,
-      productId: itemInCart.productId,
-    };
-    CartService.REMOVE_ITEM_IN_CART(data);
-    dispatch(REMOVE_ITEM_BY_ID({ productId: itemInCart.productId }));
+    if (isLoggedIn) {
+      const data = {
+        customerId: cUser.id,
+        productId: itemInCart.productId,
+      };
+      CartService.REMOVE_ITEM_IN_CART(data)
+        .then(() => {
+          getItemsInCart();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      dispatch(REMOVE_ITEM_BY_ID({ productId: itemInCart.productId }));
+    }
   };
 
   const handleOpenDialogGroup = (action) => {
@@ -239,6 +304,7 @@ function Cart(props) {
 
   return (
     <Container>
+      <div id="into-view-cart" />
       <Stack direction="column" alignItems="center" spacing={2}>
         <Stack
           sx={{ width: "100%" }}
@@ -552,6 +618,12 @@ function Cart(props) {
                 fullWidth
                 sx={{ mt: 2 }}
               />
+            </Stack>
+          )}
+
+          {joinOrAdd === "leave" && (
+            <Stack direction="row" justifyContent="center">
+              Bạn muốn rời nhóm ?
             </Stack>
           )}
         </DialogContent>

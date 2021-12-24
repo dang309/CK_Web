@@ -32,6 +32,7 @@ import { SHOW_NOTI } from "src/reducers/noti";
 
 import _uniqBy from "lodash/uniqBy";
 import { ACTIVE_LOADING, STOP_LOADING } from "src/reducers/loading";
+import { SET_ITEMS, ADD_ITEM_TO_CART } from "src/reducers/cart";
 
 function ProductContainer(props) {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function ProductContainer(props) {
     "productId"
   );
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const currentUser = useSelector((state) => state.user.user);
+  const cUser = useSelector((state) => state.user.user);
 
   const [tab, setTab] = useState(0);
   const [products, setProducts] = useState(null);
@@ -64,6 +65,49 @@ function ProductContainer(props) {
     }
   };
 
+  const getItemsInCart = async () => {
+    CartService.GET_ALL_ITEMS_IN_CART(cUser.id)
+      .then((resCart) => {
+        if (resCart.result) {
+          let promises = [];
+          resCart.data.forEach(async (item) => {
+            promises.push(ProductService.GET_PRODUCT_BY_ID(item.productId));
+          });
+          Promise.all(promises)
+            .then((resProducts) => {
+              const products = resProducts.map((item) => {
+                if (item.result) return item.data[0];
+              });
+              let data = [];
+              for (let i = 0; i < resCart.data.length; i++) {
+                let temp = {
+                  id:
+                    itemsInCart.length === 0
+                      ? 1
+                      : itemsInCart[itemsInCart.length - 1].id + 1,
+                  productId: products[i].id,
+                  ..._pick(products[i], [
+                    "name",
+                    "thumbUrl",
+                    "unitPrice",
+                    "quantity",
+                    "category",
+                    "discount",
+                  ]),
+                  quantityInCart: resCart.data[i].quantityInCart,
+                };
+
+                data.push(temp);
+              }
+
+              dispatch(SET_ITEMS(data));
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleAddToCart = (product) => {
     if (itemsInCart.findIndex((item) => item.productId === product.id) > -1) {
       dispatch(
@@ -76,12 +120,13 @@ function ProductContainer(props) {
       if (isLoggedIn) {
         let data = {
           productId: product.id,
-          customerId: currentUser.id,
+          customerId: cUser.id,
           quantityInCart: 1,
         };
         dispatch(ACTIVE_LOADING());
         CartService.ADD_ITEM_IN_CART(data)
           .then(() => {
+            getItemsInCart();
             dispatch(
               SHOW_NOTI({
                 status: "success",
@@ -99,6 +144,24 @@ function ProductContainer(props) {
           })
           .finally(() => dispatch(STOP_LOADING()));
       } else {
+        console.log("asd", product);
+        let temp = {
+          id:
+            itemsInCart.length === 0
+              ? 1
+              : itemsInCart[itemsInCart.length - 1].id + 1,
+          productId: product.id,
+          ..._pick(product, [
+            "name",
+            "thumbUrl",
+            "unitPrice",
+            "quantity",
+            "category",
+            "discount",
+          ]),
+          quantityInCart: 1,
+        };
+        dispatch(ADD_ITEM_TO_CART(temp));
         dispatch(
           SHOW_NOTI({
             status: "success",

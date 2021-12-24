@@ -65,6 +65,12 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
+  const scrollIntoView = () => {
+    document
+      .getElementById("into-view-checkout")
+      .scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const handleNext = () => {
     if (activeStep === 0 && !shippingInfo.address) return;
     if (activeStep === 1 && paymentMethod == "card" && !paymentInfo.cardType)
@@ -171,7 +177,7 @@ export default function Checkout() {
       }
     }
 
-    window.scrollTo(0, 0);
+    scrollIntoView();
   };
 
   const handleBack = () => {
@@ -212,6 +218,7 @@ export default function Checkout() {
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <div id="into-view-checkout" />
       <Paper
         variant="outlined"
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
