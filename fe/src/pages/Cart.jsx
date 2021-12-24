@@ -122,9 +122,9 @@ function Cart(props) {
     }
     dispatch(
       UPDATE_QUANTITY({
-        productId: itemsInCart.productId,
-        quantityInCart: itemsInCart.quantityInCart - 1,
-        quantity: itemsInCart.quantity + 1,
+        productId: itemInCart.productId,
+        quantityInCart: itemInCart.quantityInCart - 1,
+        quantity: itemInCart.quantity + 1,
       })
     );
   };
